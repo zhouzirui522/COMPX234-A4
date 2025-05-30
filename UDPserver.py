@@ -16,3 +16,13 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
 
         okMsg = f"OK {fileName} SIZE {fileSize} PORT {port}"
         clientSocket.sendto(okMsg.encode(), clientAddress)
+
+        with open(filePath, 'rb') as file:
+          while True:
+            try:
+                # 设置超时
+                clientSocket.settimeout(10.0)
+                data, addr = clientSocket.recvfrom(2048)
+                request = data.decode().strip()
+                parts = request.split(' ')
+

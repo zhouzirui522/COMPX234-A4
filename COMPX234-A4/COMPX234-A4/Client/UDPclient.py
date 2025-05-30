@@ -26,3 +26,7 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
         response = sendAndReceive(sock, f"DOWNLOAD {fileName}",
                                 serverAddress, serverPort)
         parts = response.split(' ')
+
+        if parts[0] == "ERR":
+          print(f"Error: {response}")
+          return False

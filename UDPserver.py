@@ -61,3 +61,9 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 serverSocket.bind(('', port))
                 print(f"Server started on port {port}")
+
+                while True:
+                 try:
+                   data, addr = serverSocket.recvfrom(1024)
+                   request = data.decode().strip()
+                   parts = request.split(' ')

@@ -30,3 +30,8 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
         if parts[0] == "ERR":
           print(f"Error: {response}")
           return False
+
+        elif parts[0] == "OK":
+          fileSize = int(parts[4])
+          dataPort = int(parts[6])
+          print(f"Downloading {fileName} (size: {fileSize} bytes)", end='', flush=True)

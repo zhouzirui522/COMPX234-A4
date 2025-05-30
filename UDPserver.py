@@ -6,7 +6,7 @@ import base64
 
 def handleFileTransmission(fileName, clientAddress, clientPort):
     try:
-        # 创建新的UDP socket
+
         clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         port = random.randint(50000, 51000)
         clientSocket.bind(('', port))
@@ -20,7 +20,7 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
         with open(filePath, 'rb') as file:
           while True:
             try:
-                # 设置超时
+
                 clientSocket.settimeout(10.0)
                 data, addr = clientSocket.recvfrom(2048)
                 request = data.decode().strip()
@@ -67,3 +67,14 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                    data, addr = serverSocket.recvfrom(1024)
                    request = data.decode().strip()
                    parts = request.split(' ')
+
+                   if parts[0] == "DOWNLOAD" and len(parts) == 2:
+                       fileName = parts[1]
+                       if os.path.exists(fileName):
+                           # 启动新线程处理文件传输
+                           threading.Thread(target=handleFileTransmission,
+                                            args=(fileName, addr)).start()
+                       else:
+                           errMsg = f"ERR {fileName} NOT_FOUND"
+                           serverSocket.sendto(errMsg.encode(), addr)
+

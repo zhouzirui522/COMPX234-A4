@@ -44,3 +44,15 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
         while bytesReceived < fileSize:
             start = bytesReceived
             end = min(bytesReceived + chunkSize - 1, fileSize - 1)
+
+            request = f"FILE {fileName} GET START {start} END {end}"
+            response = sendAndReceive(sock, request, serverAddress, dataPort)
+
+            if response.startswith(f"FILE {fileName} OK"):
+                dataParts = response.split('DATA ')
+                if len(dataParts) > 1:
+                    binaryData = base64.b64decode(dataParts[1])
+                    file.seek(start)
+                    file.write(binaryData)
+                    bytesReceived += len(binaryData)
+                    print('*', end='', flush=True)

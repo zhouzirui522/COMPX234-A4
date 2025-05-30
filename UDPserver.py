@@ -42,5 +42,13 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                     base64_data = base64.b64encode(chunk).decode()
                     response = f"FILE {fileName} OK START {start} END {end} DATA {base64_data}"
                     clientSocket.sendto(response.encode(), addr)
- 
+
+            except socket.timeout:
+                continue
+
+            except Exception as e:
+                print(f"Error in file transmission: {e}")
+            finally:
+                clientSocket.close()
+
 

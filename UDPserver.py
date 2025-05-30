@@ -31,5 +31,16 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                    clientSocket.sendto(closeMsg.encode(), addr)
                    break
 
+                elif parts[0] == "FILE" and parts[2] == "GET":
 
+                     start = int(parts[4])
+                     end = int(parts[6])
+                     file.seek(start)
+                     chunk = file.read(end - start + 1)
+
+                if chunk:
+                    base64_data = base64.b64encode(chunk).decode()
+                    response = f"FILE {fileName} OK START {start} END {end} DATA {base64_data}"
+                    clientSocket.sendto(response.encode(), addr)
+ 
 

@@ -46,9 +46,18 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
             except socket.timeout:
                 continue
 
+
             except Exception as e:
                 print(f"Error in file transmission: {e}")
             finally:
                 clientSocket.close()
 
+            def main():
+                if len(sys.argv) != 2:
+                    print("Usage: python UDPserver.py <port>")
+                    return
 
+                port = int(sys.argv[1])
+                serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                serverSocket.bind(('', port))
+                print(f"Server started on port {port}")

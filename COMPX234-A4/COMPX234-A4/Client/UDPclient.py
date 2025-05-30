@@ -34,12 +34,12 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
         elif parts[0] == "OK":
           fileSize = int(parts[4])
           dataPort = int(parts[6])
-          print(f"Downloading {fileName} (size: {fileSize} bytes)", end='', flush=True)
+        print(f"Downloading {fileName} (size: {fileSize} bytes)", end='', flush=True)
 
 
-    with open(fileName, 'wb') as file:
-        bytesReceived = 0
-        chunkSize = 1000
+        with open(fileName, 'wb') as file:
+            bytesReceived = 0
+            chunkSize = 1000
 
         while bytesReceived < fileSize:
             start = bytesReceived
@@ -61,3 +61,6 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
                 sendAndReceive(sock, closeMsg, serverAddress, dataPort)
                 print(f"\nDownload of {fileName} completed")
                 return True
+    except Exception as e:
+        print(f"\nError downloading {fileName}: {e}")
+        return False

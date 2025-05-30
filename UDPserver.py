@@ -26,3 +26,10 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                 request = data.decode().strip()
                 parts = request.split(' ')
 
+                if parts[0] == "FILE" and parts[2] == "CLOSE":
+                   closeMsg = f"FILE {fileName} CLOSE_OK"
+                   clientSocket.sendto(closeMsg.encode(), addr)
+                   break
+
+
+

@@ -63,18 +63,25 @@ def handleFileTransmission(fileName, clientAddress, clientPort):
                 print(f"Server started on port {port}")
 
                 while True:
-                 try:
-                   data, addr = serverSocket.recvfrom(1024)
-                   request = data.decode().strip()
-                   parts = request.split(' ')
+                    try:
+                        data, addr = serverSocket.recvfrom(1024)
+                        request = data.decode().strip()
+                        parts = request.split(' ')
 
-                   if parts[0] == "DOWNLOAD" and len(parts) == 2:
-                       fileName = parts[1]
-                       if os.path.exists(fileName):
-                           # 启动新线程处理文件传输
-                           threading.Thread(target=handleFileTransmission,
-                                            args=(fileName, addr)).start()
-                       else:
-                           errMsg = f"ERR {fileName} NOT_FOUND"
-                           serverSocket.sendto(errMsg.encode(), addr)
+                        if parts[0] == "DOWNLOAD" and len(parts) == 2:
+                            fileName = parts[1]
+                            if os.path.exists(fileName):
 
+                                threading.Thread(target=handleFileTransmission,
+                                                 args=(fileName, addr)).start()
+                            else:
+                                errMsg = f"ERR {fileName} NOT_FOUND"
+                                serverSocket.sendto(errMsg.encode(), addr)
+
+                    except Exception as e:
+                        print(f"Server error: {e}")
+                        continue
+
+        if __name__ == "__main__":
+            import sys
+            main()

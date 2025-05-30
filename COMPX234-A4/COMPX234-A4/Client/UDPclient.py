@@ -56,3 +56,8 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
                     file.write(binaryData)
                     bytesReceived += len(binaryData)
                     print('*', end='', flush=True)
+
+                closeMsg = f"FILE {fileName} CLOSE"
+                sendAndReceive(sock, closeMsg, serverAddress, dataPort)
+                print(f"\nDownload of {fileName} completed")
+                return True

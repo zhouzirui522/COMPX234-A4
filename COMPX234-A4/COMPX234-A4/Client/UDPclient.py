@@ -64,3 +64,8 @@ def downloadFile(sock, fileName, serverAddress, serverPort):
     except Exception as e:
         print(f"\nError downloading {fileName}: {e}")
         return False
+
+def main():
+    if len(sys.argv) != 4:
+        print("Usage: python UDPclient.py <hostname> <port> <filelist>")
+        return

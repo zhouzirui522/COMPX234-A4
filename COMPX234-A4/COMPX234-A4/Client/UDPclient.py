@@ -69,3 +69,11 @@ def main():
     if len(sys.argv) != 4:
         print("Usage: python UDPclient.py <hostname> <port> <filelist>")
         return
+
+    hostname = sys.argv[1]
+    port = int(sys.argv[2])
+    fileList = sys.argv[3]
+
+    try:
+        with open(fileList, 'r') as f:
+            files = [line.strip() for line in f if line.strip()]

@@ -90,3 +90,6 @@ def main():
         print(f"Client error: {e}")
     finally:
         sock.close()
+
+if __name__ == "__main__":
+    main()

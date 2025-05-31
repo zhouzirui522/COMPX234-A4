@@ -85,3 +85,8 @@ def main():
             print(f"Successfully downloaded {fileName}")
         else:
             print(f"Failed to download {fileName}")
+
+    except Exception as e:
+        print(f"Client error: {e}")
+    finally:
+        sock.close()

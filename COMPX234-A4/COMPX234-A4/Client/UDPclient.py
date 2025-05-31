@@ -77,3 +77,11 @@ def main():
     try:
         with open(fileList, 'r') as f:
             files = [line.strip() for line in f if line.strip()]
+
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+        for fileName in files:
+          if downloadFile(sock, fileName, hostname, port):
+            print(f"Successfully downloaded {fileName}")
+        else:
+            print(f"Failed to download {fileName}")
